@@ -1,0 +1,18 @@
+1. Sobre a Estrutura Organizacional
+  1.1 - Como está estruturada a hierarquia de supervisão dos estagiários? Existe um administrador geral ou cada 'departamento' tem seu próprio administrador?
+  1.2 - Os estagiários trabalham em um único local físico ou em locais diferentes/remotamente ?
+2.Sobre as Regras de Negócio e Necessidades
+  2.1 - Qual é a carga horária padrão que os estagiários devem cumprir (diária,semanal e mensal)?
+  2.2 - Existe flexibilidade de horário para os estagiários ou horários fixos de entrada e saída?
+  2.3 - Quais são as políticas da empresa para atrasos e faltas ?
+3. Sobre as funcionalidades desejadas
+  3.1 - Quais informações específicas sobre a jornada dos estagiários você precisa visualizar (horários de entrada/saída,intervalos,banco de horas)?
+  3.2 - Gostaria de poder configurar alertas automáticos para situações como:
+    - Estagiários com horas faltantes
+    - Estagiários que excederam determinado limite de horas
+    - Estagiários ausentes sem justificativa
+  3.3 - Deseja ter acesso a relatórios periódicos (diários, semanais, mensais) ou consultar as informações conforme necessidade?
+  3.4 - Qual formato de visualização das informações seria mais útil para sua análise (tabelas, gráficos, dashboards interativos)?
+4. - Sobre a Gestão do Sistema 
+  4.1 - Deseja ter diferentes níveis de acesso administrativo (por exemplo, administrador geral e supervisores com visibilidade apenas sobre suas equipes)?
+  4.2 - Precisará integrar este sistema com outros já existentes na empresa (como RH, folha de pagamento)?
