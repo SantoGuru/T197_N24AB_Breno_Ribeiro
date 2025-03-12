@@ -5,6 +5,7 @@
 | Daniel de Moura Mascarenhas | 2322690 |
 | Walther Oliveira Pires | 2322679 |
 | João Vinicius Araújo Rocha | 2312689 |
+| Francisco Felipe Monteiro Monte | 2322646 |
 
 ## Projeto 2
 | Aplicação | Descrição |
