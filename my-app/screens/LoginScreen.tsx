@@ -29,8 +29,9 @@ export default function LoginScreen({ navigation }: Props) {
               Seja bem-vindo de volta
             </Text>
 
-            <TextInput name="email" placeholder="Digite seu email..." />
+            <TextInput id="login-email" name="email" placeholder="Digite seu email..." />
             <TextInput
+              id="login-password"
               name="senha"
               password
               placeholder="Digite sua senha..."

@@ -19,7 +19,7 @@ export default function CreateAccount({ navigation }: Props) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <Stack f={1}>
-          <Header title="Entrar" />
+          <Header title="Cadastrar" />
 
           <YStack f={1} jc="center" px="$4" gap="$4">
             <Text textAlign="center" color="$blue10" fontSize="$8" mb="$10">
@@ -47,7 +47,7 @@ export default function CreateAccount({ navigation }: Props) {
               width="$20"
               onPress={() => navigation.navigate("Tabs")}
             >
-              Entrar
+              Criar Conta
             </Button>
             <Text textAlign="center">
               Já possui conta? <Text color="$blue10" onPress={() => navigation.navigate('Login')}>Entre aqui</Text>
