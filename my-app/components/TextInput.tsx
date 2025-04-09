@@ -2,21 +2,28 @@ import { Input, Label, YStack } from "tamagui";
 
 type InputsProps = {
     name: string,
+    id?: string,
     placeholder?: string,
     password?: boolean
 }
 
-export default function TextInput({name, placeholder, password}: InputsProps) {
+export default function TextInput({name, id, placeholder, password}: InputsProps) {
   const nameLabel = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-  const idName = name.replace(/\s+/g, '');
+
+  let idProp: string;
+  if(id === undefined){
+    idProp = name.replace(/\s+/g, '');
+  } else {
+    idProp = id;
+  }
 
   return (
     <YStack>
-      <Label htmlFor={idName} fontSize="$7">
+      <Label htmlFor={idProp} fontSize="$7">
         {nameLabel}
       </Label>
       <Input
-        id={idName}
+        id={idProp}
         size="$6"
         width="100%"
         placeholder={placeholder}

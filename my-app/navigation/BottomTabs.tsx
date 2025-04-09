@@ -1,12 +1,11 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useTheme } from 'tamagui'
+import {  useTheme } from 'tamagui'
 import { Image } from 'react-native';
-import { LogOut, ChevronLeft } from 'lucide-react-native'
+import { LogOut, House } from 'lucide-react-native'
 
-import TableScreen from '../screens/TableScreen'
 import LogoutScreen from '../screens/Logout'
-import ReturnScreen from '../screens/ReturnScreen';
+import HomeStack from './HomeStack';
 
 const Tab = createBottomTabNavigator()
 
@@ -19,7 +18,7 @@ export default function BottomTabs() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: theme.orange7.val,
+        tabBarActiveTintColor: theme.color8.val,
         tabBarInactiveTintColor: theme.color8.val,
         tabBarStyle: {
           backgroundColor: theme.blue10.val,
@@ -33,28 +32,12 @@ export default function BottomTabs() {
       }}
     >
       <Tab.Screen
-        name="Retornar"
-        component={ReturnScreen}
-        options={{
-          tabBarLabel: "Voltar",
-          tabBarIcon: ({ color, size }) => (
-            <ChevronLeft color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Home"
-        component={TableScreen}
+        component={HomeStack}
         options={{
+          tabBarLabel: "Início",
           tabBarIcon: ({ color, size }) => (
-           <Image 
-            source={require('../assets/logo.png')}
-            style={{
-              width: size,
-              height: size,
-              tintColor: color ? '#FA934E' : "#FEFCFB"
-            }}
-           />
+            <House color={color} size={size} />
           ),
         }}
       />
@@ -62,6 +45,7 @@ export default function BottomTabs() {
         name="Logout"
         component={LogoutScreen}
         options={{
+          tabBarLabel: "Sair",
           tabBarIcon: ({ color, size }) => (
             <LogOut color={color} size={size} />
           ),
