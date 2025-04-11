@@ -4,7 +4,7 @@ import {  useTheme } from 'tamagui'
 import { Image } from 'react-native';
 import { LogOut, House } from 'lucide-react-native'
 
-import LogoutScreen from '../screens/Logout'
+import LogoutScreen from '@/screens/Logout'
 import HomeStack from './HomeStack';
 
 const Tab = createBottomTabNavigator()
