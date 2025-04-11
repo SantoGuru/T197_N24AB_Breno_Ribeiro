@@ -2,15 +2,10 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import CreateAccount from "../screens/CreateAccount";
-import LoginScreen from "../screens/LoginScreen";
+import CreateAccount from "@/screens/CreateAccount";
+import LoginScreen from "@/screens/LoginScreen";
 import BottomTabs from "./BottomTabs";
-
-export type RootStackParamList = {
-  Login: undefined;
-  CreateAccount: undefined;
-  Tabs: undefined;
-};
+import { RootStackParamList } from "@/types/types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

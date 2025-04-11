@@ -1,25 +1,12 @@
 // src/navigation/HomeStack.tsx
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import TableScreen from '../screens/TableScreen'
-import EmployeeDetailScreen from '../screens/EmployeeDetailScreen'
 import { Pressable } from 'react-native'
+
+import TableScreen from '@/screens/TableScreen'
+import EmployeeDetailScreen from '@/screens/EmployeeDetailScreen'
 import { ChevronLeft } from 'lucide-react-native'
-
-export type funcionario = {
-  nome: string
-  horasTrabalhadas: Record<string, number>
-  horasMensais: Record<string, number>
-  faltas: string[];
-}
-
-
-export type HomeStackParamList = {
-  Table: undefined
-  EmployeeDetails: {
-    funcionario: funcionario
-  }
-}
+import { HomeStackParamList } from '@/types/types'
 
 const Stack = createNativeStackNavigator<HomeStackParamList>()
 

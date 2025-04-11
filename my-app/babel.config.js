@@ -3,6 +3,14 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      [
+        'module-resolver',
+        {
+          alias: {
+            '@': './src',
+          },
+        },
+      ],
       'nativewind/babel',
       ['@tamagui/babel-plugin', {
         components: ['tamagui'],
