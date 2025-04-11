@@ -1,13 +1,12 @@
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/Navigation';
+import { RootStackParamList } from '@/types/types';
 import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 
 import { Stack, YStack, Text, Button } from "tamagui";
 
-import Header from '../components/Header';
-import TextInput from "../components/TextInput";
-
+import Header from '@/components/Header';
+import TextInput from "@/components/TextInput";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateAccount'>;
 

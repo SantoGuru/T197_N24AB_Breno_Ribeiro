@@ -6,11 +6,11 @@ import {
   Platform,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/Navigation";
+import { RootStackParamList } from "@/types/types";
 import { Stack, YStack, Text, Button } from "tamagui";
 
-import TextInput from "../components/TextInput";
-import Header from "../components/Header";
+import TextInput from "@/components/TextInput";
+import Header from "@/components/Header";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
