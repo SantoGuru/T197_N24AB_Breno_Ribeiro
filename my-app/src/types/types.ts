@@ -30,5 +30,14 @@ export type FuncionarioFormatado = {
     data: string;
     horas_trabalhadas: number;
   }[];
-
 };
+
+export type FuncionarioResumo = {
+  id: string;
+  nome: string;
+  email: string;
+  cargaHoraria: number;
+  telefone: string;
+  horasTrabalhadas: number;
+  faltas: number;
+}

@@ -8,6 +8,8 @@ import { HomeStackParamList } from "@/types/types";
 import "@/helpers/config/config-calendar";
 import { useFuncionarios } from "@/hooks/useFuncionarios";
 import { useFrequenciaFuncionario } from "@/hooks/useFrequenciaUsuario";
+import Loading from "@/components/Loading";
+import FetchError from "@/components/FetchError";
 
 type DetailScreenRouteProp = RouteProp<HomeStackParamList, "EmployeeDetails">;
 
@@ -30,6 +32,7 @@ export default function EmployeeDetailScreen() {
     data: frequencia,
     isLoading: isLoadingFrequencia,
     isError,
+    error
   } = useFrequenciaFuncionario(funcionarioId, selectedMonth);
 
   const handleMonthChange = (month: { year: number; month: number }) => {
@@ -38,15 +41,15 @@ export default function EmployeeDetailScreen() {
   };
 
   if (isLoadingFuncionarios || isLoadingFrequencia) {
-    return <Spinner size="large" />;
+    return <Loading>Carregando dados do funcionário...</Loading>
   }
 
   if (!funcionario) {
-    return <Text>Funcionário não encontrado!</Text>;
+    return <FetchError>Funcionário não encontrado!</FetchError>
   }
 
   if (isError || !frequencia) {
-    return <Text>Erro ao carregar dados de frequência</Text>;
+    return <FetchError>Erro ao carregar dados de frequência</FetchError>;
   }
 
   return (
