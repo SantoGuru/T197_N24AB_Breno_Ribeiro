@@ -10,6 +10,7 @@ import { useFuncionarios } from "@/hooks/useFuncionarios";
 import { useFrequenciaFuncionario } from "@/hooks/useFrequenciaUsuario";
 import Loading from "@/components/Loading";
 import FetchError from "@/components/FetchError";
+import { Skeleton } from "@/components/Skeleton";
 
 type DetailScreenRouteProp = RouteProp<HomeStackParamList, "EmployeeDetails">;
 
@@ -18,11 +19,13 @@ export default function EmployeeDetailScreen() {
   const { funcionarioId } = route.params;
 
   const today = new Date();
-  const [selectedMonth, setSelectedMonth] = useState(() =>
-    `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`
+  const [selectedMonth, setSelectedMonth] = useState(
+    () =>
+      `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`
   );
 
-  const { data: funcionarios, isLoading: isLoadingFuncionarios } = useFuncionarios();
+  const { data: funcionarios, isLoading: isLoadingFuncionarios } =
+    useFuncionarios();
   const funcionario = useMemo(
     () => funcionarios?.find((f) => f.id === funcionarioId),
     [funcionarios, funcionarioId]
@@ -32,7 +35,7 @@ export default function EmployeeDetailScreen() {
     data: frequencia,
     isLoading: isLoadingFrequencia,
     isError,
-    error
+    error,
   } = useFrequenciaFuncionario(funcionarioId, selectedMonth);
 
   const handleMonthChange = (month: { year: number; month: number }) => {
@@ -41,11 +44,11 @@ export default function EmployeeDetailScreen() {
   };
 
   if (isLoadingFuncionarios || isLoadingFrequencia) {
-    return <Loading>Carregando dados do funcionário...</Loading>
+    return <EmployeeDetailSkeleton />;
   }
 
   if (!funcionario) {
-    return <FetchError>Funcionário não encontrado!</FetchError>
+    return <FetchError>Funcionário não encontrado!</FetchError>;
   }
 
   if (isError || !frequencia) {
@@ -60,12 +63,18 @@ export default function EmployeeDetailScreen() {
             <Text fontSize="$8" fontWeight="bold">
               {funcionario.nome}
             </Text>
-            <Text color="$gray10">Horas Trabalhadas: {frequencia.horasTrabalhadas}</Text>
-            <Text color="$gray10">Horas Mensais: {frequencia.horasMensais}</Text>
+            <Text color="$gray10">
+              Horas Trabalhadas: {frequencia.horasTrabalhadas}
+            </Text>
+            <Text color="$gray10">
+              Horas Mensais: {frequencia.horasMensais}
+            </Text>
           </YStack>
 
           <YStack>
-            <Text fontSize="$6" mb="$2">Frequência</Text>
+            <Text fontSize="$6" mb="$2">
+              Frequência
+            </Text>
 
             <Progress
               value={frequencia.porcentagemPresencas}
@@ -87,13 +96,17 @@ export default function EmployeeDetailScreen() {
             </Progress>
 
             <XStack justifyContent="space-between" mt="$2">
-              <Text color="$gray10">Presenças: {frequencia.totalPresencas}</Text>
+              <Text color="$gray10">
+                Presenças: {frequencia.totalPresencas}
+              </Text>
               <Text color="$gray10">Faltas: {frequencia.totalFaltas}</Text>
             </XStack>
           </YStack>
 
           <YStack>
-            <Text fontSize="$6" mb="$2">Calendário</Text>
+            <Text fontSize="$6" mb="$2">
+              Calendário
+            </Text>
             <Calendar
               markedDates={frequencia.diasMarcados}
               onMonthChange={handleMonthChange}
@@ -103,6 +116,51 @@ export default function EmployeeDetailScreen() {
                 arrowColor: "#FA934E",
               }}
             />
+          </YStack>
+        </YStack>
+      </ScrollView>
+    </View>
+  );
+}
+
+function EmployeeDetailSkeleton() {
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView f={1} px="$4" py="$10">
+        <YStack gap="$4">
+          <YStack gap="$2">
+            <Skeleton width={200} height={20} borderRadius={8} />
+            <Text color="$gray10">
+              Horas Trabalhadas:{" "}
+              <Skeleton width={10} height={14} borderRadius={6} />
+            </Text>
+            <Text color="$gray10">
+              Horas Mensais:{" "}
+              <Skeleton width={10} height={14} borderRadius={6} />
+            </Text>
+          </YStack>
+
+          <YStack gap="$2">
+            <Text fontSize="$6" mb="$2">
+              Frequência
+            </Text>
+            <Skeleton width="100%" height={20} borderRadius={10} />
+            <Skeleton width="100%" height={20} borderRadius={10} />
+            <XStack justifyContent="space-between" mt="$2">
+              <Text color="$gray10">
+                Presenças: <Skeleton width={10} height={16} borderRadius={6} />
+              </Text>
+              <Text color="$gray10">
+                Faltas: <Skeleton width={10} height={16} borderRadius={6} />
+              </Text>
+            </XStack>
+          </YStack>
+
+          <YStack gap="$2">
+            <Text fontSize="$6" mb="$2">
+              Calendário
+            </Text>
+            <Skeleton width="100%" height={300} borderRadius={10} />
           </YStack>
         </YStack>
       </ScrollView>
