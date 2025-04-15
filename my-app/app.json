@@ -1,5 +1,7 @@
 {
   "expo": {
+    "scheme": "myapp",
+    "deepLinking": true,
     "name": "my-app",
     "slug": "my-app",
     "version": "1.0.0",
@@ -16,6 +18,16 @@
       "supportsTablet": true
     },
     "android": {
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "myapp",
+            "host": "login"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

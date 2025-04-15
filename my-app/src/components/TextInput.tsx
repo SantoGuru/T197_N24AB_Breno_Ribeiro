@@ -4,10 +4,12 @@ type InputsProps = {
     name: string,
     id?: string,
     placeholder?: string,
-    password?: boolean
+    password?: boolean,
+    value?: string;
+    onChangeText?: (text: string) => void;
 }
 
-export default function TextInput({name, id, placeholder, password}: InputsProps) {
+export default function TextInput({name, id, placeholder, password, value, onChangeText}: InputsProps) {
   const nameLabel = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
   let idProp: string;
@@ -28,6 +30,8 @@ export default function TextInput({name, id, placeholder, password}: InputsProps
         width="100%"
         placeholder={placeholder}
         secureTextEntry={password}
+        value={value}
+        onChangeText={onChangeText}
       />
     </YStack>
   );

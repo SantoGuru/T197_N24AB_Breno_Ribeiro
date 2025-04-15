@@ -15,6 +15,7 @@ export type RootStackParamList = {
 };
 
 export type HomeStackParamList = {
+  Table: undefined;
   EmployeeDetails: { funcionarioId: string };
 };
 
