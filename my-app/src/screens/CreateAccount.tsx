@@ -45,6 +45,9 @@ export default function CreateAccount({ navigation }: Props) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password: senha,
+      options: {
+        emailRedirectTo: "https://google.com/"
+      }
     });
     
     if (error) {
@@ -98,7 +101,7 @@ export default function CreateAccount({ navigation }: Props) {
               color="$background"
               size="$6"
               width="$20"
-              onPress={() => navigation.navigate("Tabs")}
+              onPress={handleCriarConta}
             >
               Criar Conta
             </Button>
@@ -106,7 +109,7 @@ export default function CreateAccount({ navigation }: Props) {
               Já possui conta?{" "}
               <Text
                 color="$blue10"
-                onPress={handleCriarConta}
+                onPress={() => navigation.navigate("Login")}
               >
                 Entre aqui
               </Text>

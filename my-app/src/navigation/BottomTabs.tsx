@@ -1,7 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {  useTheme } from 'tamagui'
-import { Image } from 'react-native';
 import { LogOut, House } from 'lucide-react-native'
 
 import LogoutScreen from '@/screens/Logout'

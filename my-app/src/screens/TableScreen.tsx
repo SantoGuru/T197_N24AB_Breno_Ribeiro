@@ -9,7 +9,6 @@ import {
   Input,
   Button,
   View,
-  Spinner,
 } from "tamagui";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HomeStackParamList } from "@/types/types";
