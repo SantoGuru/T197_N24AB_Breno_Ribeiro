@@ -22,7 +22,7 @@ export default function TableScreen() {
   const { data, isLoading, isError } = useFuncionarios();
 
   if (isLoading) {
-    return <Loading>Carregando funcionários..."</Loading>;
+    return <Loading>Carregando funcionários...</Loading>;
   }
 
   if (isError) {
