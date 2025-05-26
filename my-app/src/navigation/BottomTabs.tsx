@@ -41,7 +41,7 @@ export default function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="Logout"
+        name="Login"
         component={LogoutScreen}
         options={{
           tabBarLabel: "Sair",

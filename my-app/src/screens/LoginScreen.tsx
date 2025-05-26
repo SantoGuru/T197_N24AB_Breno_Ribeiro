@@ -46,7 +46,6 @@ export default function LoginScreen({ navigation }: Props) {
     }
 
     Alert.alert("Bem-vindo de volta!", "Você foi autenticado com sucesso.");
-    navigation.navigate("Tabs");
   }
 
   return (
