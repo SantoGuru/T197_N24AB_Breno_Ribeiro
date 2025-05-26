@@ -1,4 +1,3 @@
-// Dentro de LoginScreen.tsx
 import { View, Button, XStack, Image } from "tamagui";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 import { ArrowLeft } from "lucide-react-native";

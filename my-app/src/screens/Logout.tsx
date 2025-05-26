@@ -11,7 +11,6 @@ export default function LogoutScreen() {
     }
 
     signOut();
-    navigation.dispatch(StackActions.replace("Login"));
   }, []);
 
   return null;

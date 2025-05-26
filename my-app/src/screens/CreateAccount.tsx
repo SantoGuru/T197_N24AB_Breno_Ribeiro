@@ -56,7 +56,6 @@ export default function CreateAccount({ navigation }: Props) {
     }
 
     Alert.alert('Conta criada!', 'Verifique seu e-mail para confirmar o cadastro');
-    navigation.navigate('Login');
   }
 
   return (
