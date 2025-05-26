@@ -8,9 +8,9 @@ import { HomeStackParamList } from "@/types/types";
 import "@/helpers/config/config-calendar";
 import { useFuncionarios } from "@/hooks/useFuncionarios";
 import { useFrequenciaFuncionario } from "@/hooks/useFrequenciaUsuario";
-import Loading from "@/components/Loading";
 import FetchError from "@/components/FetchError";
-import { Skeleton } from "@/components/Skeleton";
+import { EmployeeDetailSkeleton } from "./EmployeeDetailSkeleton";
+import PontosSheet from "./DaySheet";
 
 type DetailScreenRouteProp = RouteProp<HomeStackParamList, "EmployeeDetails">;
 
@@ -18,6 +18,14 @@ export default function EmployeeDetailScreen() {
   const route = useRoute<DetailScreenRouteProp>();
   const { funcionarioId } = route.params;
 
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+
+  const handleDayPress = (day: { dateString: string }) => {
+    setSelectedDay(day.dateString);
+    setSheetOpen(true);
+  };
+ 
   const today = new Date();
   const [selectedMonth, setSelectedMonth] = useState(
     () =>
@@ -38,10 +46,18 @@ export default function EmployeeDetailScreen() {
     error,
   } = useFrequenciaFuncionario(funcionarioId, selectedMonth);
 
+  console.log("Faltas Porcentagem: " + frequencia.porcentagemFaltas);
+  console.log("Total Faltas: " + frequencia.totalFaltas);
+
   const handleMonthChange = (month: { year: number; month: number }) => {
     const formatted = `${month.year}-${String(month.month).padStart(2, "0")}`;
     setSelectedMonth(formatted);
   };
+
+  const registroPonto =
+    selectedDay && frequencia?.pontosPorDia && frequencia.pontosPorDia[selectedDay]
+      ? frequencia.pontosPorDia[selectedDay]
+      : undefined;
 
   if (isLoadingFuncionarios || isLoadingFrequencia) {
     return <EmployeeDetailSkeleton />;
@@ -110,6 +126,7 @@ export default function EmployeeDetailScreen() {
             <Calendar
               markedDates={frequencia.diasMarcados}
               onMonthChange={handleMonthChange}
+              onDayPress={handleDayPress}
               theme={{
                 selectedDayBackgroundColor: "#D92B06",
                 todayTextColor: "#FA934E",
@@ -119,51 +136,13 @@ export default function EmployeeDetailScreen() {
           </YStack>
         </YStack>
       </ScrollView>
-    </View>
-  );
-}
-
-function EmployeeDetailSkeleton() {
-  return (
-    <View style={{ flex: 1 }}>
-      <ScrollView f={1} px="$4" py="$10">
-        <YStack gap="$4">
-          <YStack gap="$2">
-            <Skeleton width={200} height={20} borderRadius={8} />
-            <Text color="$gray10">
-              Horas Trabalhadas:{" "}
-              <Skeleton width={10} height={14} borderRadius={6} />
-            </Text>
-            <Text color="$gray10">
-              Horas Mensais:{" "}
-              <Skeleton width={10} height={14} borderRadius={6} />
-            </Text>
-          </YStack>
-
-          <YStack gap="$2">
-            <Text fontSize="$6" mb="$2">
-              Frequência
-            </Text>
-            <Skeleton width="100%" height={20} borderRadius={10} />
-            <Skeleton width="100%" height={20} borderRadius={10} />
-            <XStack justifyContent="space-between" mt="$2">
-              <Text color="$gray10">
-                Presenças: <Skeleton width={10} height={16} borderRadius={6} />
-              </Text>
-              <Text color="$gray10">
-                Faltas: <Skeleton width={10} height={16} borderRadius={6} />
-              </Text>
-            </XStack>
-          </YStack>
-
-          <YStack gap="$2">
-            <Text fontSize="$6" mb="$2">
-              Calendário
-            </Text>
-            <Skeleton width="100%" height={300} borderRadius={10} />
-          </YStack>
-        </YStack>
-      </ScrollView>
+      <PontosSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        selectedDay={selectedDay}
+        registro={registroPonto}
+        funcionarioId={funcionarioId}
+      />
     </View>
   );
 }
