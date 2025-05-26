@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
-export function getDiasUteisNoMes(ano: number, mes: number): number {
-  let diasUteis = 0;
-
+export function getDiasUteisNoMesArray(ano: number, mes: number): string[] {
+  const diasUteis: string[] = [];
   const ultimoDia = new Date(ano, mes, 0).getDate();
 
   for (let dia = 1; dia <= ultimoDia; dia++) {
     const data = new Date(ano, mes - 1, dia);
     const diaSemana = data.getDay();
     if (diaSemana !== 0 && diaSemana !== 6) {
-      diasUteis++;
+      diasUteis.push(data.toISOString().split("T")[0]);
     }
   }
 

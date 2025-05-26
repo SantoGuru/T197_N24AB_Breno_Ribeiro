@@ -1,4 +1,3 @@
-// components/Skeleton.tsx
 import { styled, View } from 'tamagui'
 
 export const Skeleton = styled(View, {

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
 import TableScreen from '@/screens/TableScreen'
-import EmployeeDetailScreen from '@/screens/EmployeeDetailScreen'
+import EmployeeDetailScreen from '@/screens/EmployeeDetailScreen/EmployeeDetailScreen'
 import { ChevronLeft } from 'lucide-react-native'
 import { HomeStackParamList } from '@/types/types'
 

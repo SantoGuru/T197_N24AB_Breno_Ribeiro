@@ -42,5 +42,4 @@ LocaleConfig.locales['pt-br'] = {
   today: 'Hoje'
 };
 
-// Define o local padrão:
 LocaleConfig.defaultLocale = 'pt-br';
