@@ -1,9 +1,11 @@
-import { Button, Sheet, YStack, Text } from "tamagui";
+import { Button, Sheet, YStack, Text, XStack } from "tamagui";
 import { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Platform, Pressable } from "react-native";
 import { useRegistrarOuAtualizarPonto } from "@/hooks/useUpdateClockIn";
 import { useRegistroPontoDia } from "@/hooks/useRegistroPontoDia";
+import transformDate from "@/helpers/date-formatter";
+import { useRemoverCampoPonto } from "@/hooks/useRemoverCampoPonto";
 
 type PontosSheetProps = {
   open: boolean;
@@ -15,7 +17,7 @@ type PontosSheetProps = {
     retorno_almoco?: string;
     saida?: string;
   };
-  funcionarioId: string; 
+  funcionarioId: string;
   onSalvar?: (valores: {
     entrada?: string;
     saida_almoco?: string;
@@ -33,10 +35,23 @@ function formatTime(date: Date) {
 }
 
 function parseTime(str?: string) {
-  if (!str) return new Date();
-  const [h, m] = str.split(":").map(Number);
+  if (!str) {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+  // Aceita "HH:mm:ss" ou "HH:mm"
+  const match = str.match(/^(\d{2}):(\d{2})(?::(\d{2}))?/);
+  if (!match) {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+  const h = Number(match[1]);
+  const m = Number(match[2]);
+  const s = match[3] ? Number(match[3]) : 0;
   const d = new Date();
-  d.setHours(h ?? 0, m ?? 0, 0, 0);
+  d.setHours(h, m, s, 0);
   return d;
 }
 
@@ -45,7 +60,7 @@ export default function DaySheet({
   onOpenChange,
   selectedDay,
   registro,
-  funcionarioId, 
+  funcionarioId,
   onSalvar,
 }: PontosSheetProps) {
   const [valores, setValores] = useState({
@@ -60,15 +75,12 @@ export default function DaySheet({
   const { data: registroDia, isLoading: isLoadingRegistro } =
     useRegistroPontoDia(funcionarioId, selectedDay ?? undefined);
 
-  console.log("registro dia: ", registroDia)
-
   useEffect(() => {
-    const registro = Array.isArray(registroDia) && registroDia.length > 0 ? registroDia[0] : undefined;
     setValores({
-      entrada: registro?.entrada ?? "",
-      saida_almoco: registro?.saida_almoco ?? "",
-      retorno_almoco: registro?.retorno_almoco ?? "",
-      saida: registro?.saida ?? "",
+      entrada: registroDia?.entrada ?? "",
+      saida_almoco: registroDia?.saida_almoco ?? "",
+      retorno_almoco: registroDia?.retorno_almoco ?? "",
+      saida: registroDia?.saida ?? "",
     });
   }, [registroDia, selectedDay]);
 
@@ -77,14 +89,17 @@ export default function DaySheet({
   };
 
   const registrarOuAtualizarPonto = useRegistrarOuAtualizarPonto();
-
+  
   const handleSalvar = () => {
     if (!selectedDay) return;
+    const payload = Object.fromEntries(
+      Object.entries(valores).filter(([_, v]) => v)
+    );
     registrarOuAtualizarPonto.mutate(
       {
         funcionario_id: funcionarioId,
         data: selectedDay,
-        ...valores,
+        ...payload,
       },
       {
         onSuccess: () => {
@@ -97,6 +112,29 @@ export default function DaySheet({
     );
   };
 
+  const removerCampoPonto = useRemoverCampoPonto();
+
+  const handleRemoverCampo = (campo: keyof typeof valores) => {
+    if (!selectedDay) return;
+    removerCampoPonto.mutate(
+      {
+        funcionario_id: funcionarioId,
+        data: selectedDay,
+        campo,
+      },
+      {
+        onSuccess: () => {
+          setValores((prev) => ({ ...prev, [campo]: "" }));
+        },
+        onError: (err: any) => {
+          alert(err.message || "Erro ao remover campo");
+        },
+      }
+    );
+  };
+
+  const [dia, mes] = transformDate(selectedDay!);
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <Sheet.Overlay />
@@ -104,7 +142,7 @@ export default function DaySheet({
       <Sheet.Frame>
         <YStack p="$4" gap="$3">
           <Text fontSize="$7" fontWeight="bold">
-            Pontos do dia {selectedDay}
+            {dia} de {mes}
           </Text>
 
           {isLoadingRegistro ? (
@@ -121,16 +159,31 @@ export default function DaySheet({
                     {campo === "retorno_almoco" && "Retorno almoço"}
                     {campo === "saida" && "Saída"}
                   </Text>
-                  <Text
-                    color={valores[campo] ? "$color" : "$gray10"}
-                    style={{
-                      borderBottomWidth: 1,
-                      borderColor: "#ccc",
-                      paddingVertical: 8,
-                    }}
-                  >
-                    {valores[campo] || "Selecionar horário"}
-                  </Text>
+                  <XStack alignItems="center">
+                    <Text
+                      color={valores[campo] ? "$color" : "$gray10"}
+                      style={{
+                        borderBottomWidth: 1,
+                        borderColor: "#ccc",
+                        paddingVertical: 8,
+                        flex: 1,
+                      }}
+                    >
+                      {valores[campo].split(":").slice(0, 2).join(":") ||
+                        "Selecionar horário"}
+                    </Text>
+                    {valores[campo] && (
+                      <Button
+                        size="$2"
+                        ml="$2"
+                        onPress={() => handleRemoverCampo(campo)}
+                        disabled={removerCampoPonto.isLoading}
+                        theme="red"
+                      >
+                        Remover
+                      </Button>
+                    )}
+                  </XStack>
                 </YStack>
                 {picker === campo && (
                   <DateTimePicker
@@ -138,6 +191,7 @@ export default function DaySheet({
                     mode="time"
                     is24Hour={true}
                     display={Platform.OS === "ios" ? "spinner" : "default"}
+                    themeVariant="light"
                     onChange={(_, selectedDate) => {
                       setPicker(null);
                       if (selectedDate) {

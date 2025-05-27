@@ -35,7 +35,7 @@ export default function EmployeeDetailScreen() {
   const { data: funcionarios, isLoading: isLoadingFuncionarios } =
     useFuncionarios();
   const funcionario = useMemo(
-    () => funcionarios?.find((f) => f.id === funcionarioId),
+    () => funcionarios?.find((f: any) => f.id === funcionarioId),
     [funcionarios, funcionarioId]
   );
 
@@ -46,8 +46,7 @@ export default function EmployeeDetailScreen() {
     error,
   } = useFrequenciaFuncionario(funcionarioId, selectedMonth);
 
-  console.log("Faltas Porcentagem: " + frequencia.porcentagemFaltas);
-  console.log("Total Faltas: " + frequencia.totalFaltas);
+  console.log("Frequencia: ", frequencia);
 
   const handleMonthChange = (month: { year: number; month: number }) => {
     const formatted = `${month.year}-${String(month.month).padStart(2, "0")}`;
@@ -136,13 +135,15 @@ export default function EmployeeDetailScreen() {
           </YStack>
         </YStack>
       </ScrollView>
-      <PontosSheet
-        open={sheetOpen}
-        onOpenChange={setSheetOpen}
-        selectedDay={selectedDay}
-        registro={registroPonto}
-        funcionarioId={funcionarioId}
-      />
+      {sheetOpen && selectedDay && (
+        <PontosSheet
+          open={sheetOpen}
+          onOpenChange={setSheetOpen}
+          selectedDay={selectedDay}
+          registro={registroPonto}
+          funcionarioId={funcionarioId}
+        />
+      )}
     </View>
   );
 }
