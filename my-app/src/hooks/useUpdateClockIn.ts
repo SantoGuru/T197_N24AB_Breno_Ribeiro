@@ -6,7 +6,7 @@ export function useRegistrarOuAtualizarPonto() {
 
   return useMutation({
     mutationFn: clockIn,
-    onSuccess: (_, variables) => {
+    onSuccess: (_: any, variables: any) => {
       queryClient.invalidateQueries({ queryKey: ['frequencia-funcionario', variables.funcionario_id] });
       queryClient.invalidateQueries({ queryKey: ["funcionarios"] });
     },

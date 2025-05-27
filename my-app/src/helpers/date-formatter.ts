@@ -1,4 +1,8 @@
 const transformDate = (dateString: string): [string, string] => {
+  if (!dateString || !dateString.includes("-")) {
+    return ["", ""];
+  }
+
   const [year, month, day] = dateString.split("-");
   const monthes = [
     "janeiro",

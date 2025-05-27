@@ -34,7 +34,7 @@ export default function TableScreen() {
   }
 
   const filteredData =
-    data?.filter((item) =>
+    data?.filter((item: any) =>
       item.nome.toLowerCase().includes(search.toLowerCase())
     ) ?? [];
 
@@ -68,7 +68,7 @@ export default function TableScreen() {
           </View>
         </XStack>
 
-        {filteredData?.map((item, index) => (
+        {filteredData?.map((item: any, index: any) => (
           <XStack
             key={item.id}
             bg={index % 2 === 0 ? "$gray2" : "$gray8"}

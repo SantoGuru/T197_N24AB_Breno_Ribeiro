@@ -4,7 +4,7 @@ import { fetchFrequenciaFuncionario } from "@/services/funcionariosService";
 export function useFrequenciaFuncionario(funcionarioId?: string, mes?: string) {
   return useQuery({
     queryKey: ["frequencia-funcionario", funcionarioId, mes],
-    queryFn: () => fetchFrequenciaFuncionario(funcionarioId!, mes!),
+    queryFn: async () => await fetchFrequenciaFuncionario(funcionarioId!, mes!),
     enabled: !!funcionarioId && !!mes,
     initialData: {
       horasTrabalhadas: 0,
